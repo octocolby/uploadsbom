@@ -37,8 +37,21 @@ runs:
       run: sudo apt install python3 pip
       shell: bash
 
+    - name: a
+      run: pwd
+      shell: bash
+    - name: b
+      run: ls
+      shell: bash
+    - name: c
+      run: ls ${{ github.action_path }}
+      shell: bash
+    - name: d
+      run: echo ${{ github.action_path }}
+      shell: bash
+
     - name: Install requirements
-      run: pip3 install requirements.txt
+      run: pip3 install ${{ github.action_path }}/requirements.txt
       shell: bash
 
     - name: Test
