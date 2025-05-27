@@ -38,7 +38,7 @@ runs:
       shell: bash
 
     - name: Install requirements
-      run: pip3 install requests.txt
+      run: pip3 install requirements.txt
       shell: bash
 
     - name: Test
