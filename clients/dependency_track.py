@@ -18,6 +18,9 @@ class DependencyTrackClient:
         return self.client.get(f"{self.url}/api/v1/project", params=params).json()
 
     def create_project(self, project_name, version, sbom_file):
+        sbomfile = open(sbom_file, 'rb')
+        print("AAA")
+        print (sbomfile)
         data = {
             "autoCreate": "true",
             "projectName": project_name,
@@ -26,7 +29,8 @@ class DependencyTrackClient:
         }
         request = Request("POST", f"{self.url}/api/v1/bom", headers=self.headers, files=data).prepare()
         session = Session()
-        return session.send(request)
+        z= session.send(request)
+        print(z)
 
     def tag_project(self, project_name, version, tags, description):
         params = {'name': project_name, 'version': version}
