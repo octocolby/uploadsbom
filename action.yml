@@ -37,25 +37,14 @@ runs:
       run: sudo apt install python3 pip
       shell: bash
 
-    - name: a
-      run: pwd
-      shell: bash
-    - name: b
-      run: ls
-      shell: bash
-    - name: c
-      run: ls ${{ github.action_path }}
-      shell: bash
-    - name: d
-      run: echo ${{ github.action_path }}
-      shell: bash
-
     - name: Install requirements
-      run: pip3 install ${{ github.action_path }}/requirements.txt
+      run: pip3 install -r ${{ github.action_path }}/requirements.txt
       shell: bash
 
     - name: Test
-      run: python3 upload_sbom.py
+      run: |
+       export SBOM_DIR=$(pwd)
+       python3 ${{ github.action_path }}/upload_sbom.py
       shell: bash
       env:
         DEPENDENCY_TRACK_URL: ${{ inputs.dependency_track_url }}
