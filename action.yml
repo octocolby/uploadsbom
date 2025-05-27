@@ -1,15 +1,54 @@
 name: 'Upload SBOM'
 description: 'Uploads a CycloneDX SBOM to Dependency Track'
 inputs:
+  dependency_track_url:
+    description: 'URL of Dependency Track server'
+    required: true
+    default: 'https://localhost'
+  dependency_track_api_key:
+    description: 'API Key for Dependency Track server'
+    required: true
+    default: ''
+  project_name:
+    description: 'Project name to upload SBOM to in Dependency Track'
+    required: true
+    default: 'myproj'
+  version:
+    description: 'Version to set for Dependency Track project'
+    required: true
+    default: '0.0.0'
   sbom-file:
     description: 'Filename of SBOM to upload'
     required: true
     default: 'sbom.json'
+  tags:
+    description: 'Comma seperated tags for Dependency Track project'
+    required: true
+    default: 'foo,bar'
+  description:
+    description: 'Description of Dependency Track project'
+    required: true
+    default: 'my app'
+
 runs:
   using: "composite"
   steps:
+    - name: Install python3
+      run: sudo apt install python3 pip
+      shell: bash
+
+    - name: Install requirements
+      run: pip3 install requests.txt
+      shell: bash
+
     - name: Test
-      run: echo "Hello sbom-file."
+      run: python3 upload_sbom.py
       shell: bash
       env:
-        sbom-file: ${{ inputs.sbom-file }}
+        DEPENDENCY_TRACK_URL: ${{ inputs.dependency_track_url }}
+        DEPENDENCY_TRACK_API_KEY: ${{ inputs.dependency_track_api_key }}
+        PROJECT_NAME: ${{ inputs.project_name }}
+        VERSION: ${{ inputs.version }}
+        SBOM_FILE: ${{ inputs.sbom-file }}
+        TAGS: ${{ inputs.tags }}
+        DESCRIPTION: ${{ inputs.description }}
