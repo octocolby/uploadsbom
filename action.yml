@@ -1,0 +1,15 @@
+name: 'Upload SBOM'
+description: 'Uploads a CycloneDX SBOM to Dependency Track'
+inputs:
+  sbom-file:
+    description: 'Filename of SBOM to upload'
+    required: true
+    default: 'sbom.json'
+runs:
+  using: "composite"
+  steps:
+    - name: Test
+      run: echo "Hello sbom-file."
+      shell: bash
+      env:
+        sbom-file: ${{ inputs.sbom-file }}
